@@ -23,7 +23,7 @@ This is a Python application that simulates human typing on your computer, inclu
 
 ### Using the Installer (Recommended)
 
-1.  **Download the installer:** Download the latest installer (`AutotyperSetup.exe`) from the [Releases](<YOUR_GITHUB_RELEASES_URL>) page of this repository.  *(You'll replace `<YOUR_GITHUB_RELEASES_URL>` with the actual URL later.)*
+1.  **Download the installer:** Download the latest installer (`AutotyperSetup.exe`) from the [Releases](https://github.com/AngelosGamePlay/autotyper/releases) page of this repository.
 2.  **Run the installer:** Double-click `AutotyperSetup.exe` and follow the on-screen instructions.
 
 ### Building from Source (For Developers)
@@ -31,7 +31,7 @@ This is a Python application that simulates human typing on your computer, inclu
 1.  **Clone the repository:**
 
     ```bash
-    git clone <your_repository_url>
+    git clone https://github.com/AngelosGamePlay/autotyper.git
     cd autotyper-project
     ```
 
@@ -66,18 +66,6 @@ The application uses a configuration file named `config.ini` to store your setti
 
 *   **Security:** Use this program responsibly and ethically.
 *   **Permissions:** You may need accessibility/input monitoring permissions.
-
-## Project Structure
-├── autotyper/
-│ ├── init.py # Package initializer
-│ ├── autotyper.py # Core autotyping logic
-│ ├── gui.py # GUI code
-│ └── constants.py # Constants and settings
-├── main.py # Entry point to run the application
-├── README.md # Project description (this file)
-├── requirements.txt # List of required packages
-├── .gitignore # Files and directories to ignore in Git
-└── LICENSE # Project license (MIT License)
 
 ## Contributing
 
