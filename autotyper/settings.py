@@ -30,6 +30,9 @@ class Settings:
                 'wrong_char_delay_max': 0.08,
                 'backspace_delay_min': 0.1,
                 'backspace_delay_max': 0.3,
+                'break_frequency': 500,  # Characters per break
+                'break_duration_min': 2.0,
+                'break_duration_max': 5.0,
             },
             'GUI': {
                 'start_delay': 5
@@ -65,7 +68,7 @@ class Settings:
         try:
             if option.endswith('_rate'):
                 return self.config.getfloat(section, option)
-            elif option.endswith('_delay') or option.endswith('_min') or option.endswith('_max'):
+            elif option.endswith('_delay') or option.endswith('_min') or option.endswith('_max') or option == 'break_frequency':
                 return self.config.getfloat(section, option)
             elif option == 'start_delay':
                 return self.config.getint(section, option)
@@ -96,7 +99,7 @@ class Settings:
             if option.endswith('_rate'):
                 float(value)  # Check if it can be converted to float
                 return 0.0 <= float(value) <= 1.0  # Rates should be between 0 and 1
-            elif option.endswith('_delay') or option.endswith('_min') or option.endswith('_max'):
+            elif option.endswith('_delay') or option.endswith('_min') or option.endswith('_max') or option == 'break_frequency':
                 float(value)
                 return float(value) >= 0.0  # Delays should be non-negative
             elif option == 'start_delay':

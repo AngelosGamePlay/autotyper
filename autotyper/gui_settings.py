@@ -103,6 +103,24 @@ class SettingsGUI:
         self.backspace_delay_max_entry.insert(0, self.settings.get_setting('Typing', 'backspace_delay_max'))
         row += 1
 
+        ttk.Label(self.typing_frame, text="Break Frequency (chars):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        self.break_frequency_entry = ttk.Entry(self.typing_frame, width=10)
+        self.break_frequency_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
+        self.break_frequency_entry.insert(0, self.settings.get_setting('Typing', 'break_frequency'))
+        row += 1
+
+        ttk.Label(self.typing_frame, text="Break Duration Min (s):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        self.break_duration_min_entry = ttk.Entry(self.typing_frame, width=10)
+        self.break_duration_min_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
+        self.break_duration_min_entry.insert(0, self.settings.get_setting('Typing', 'break_duration_min'))
+        row += 1
+
+        ttk.Label(self.typing_frame, text="Break Duration Max (s):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        self.break_duration_max_entry = ttk.Entry(self.typing_frame, width=10)
+        self.break_duration_max_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
+        self.break_duration_max_entry.insert(0, self.settings.get_setting('Typing', 'break_duration_max'))
+        row += 1
+
         # Allow the last row to expand, pushing everything else up
         self.typing_frame.grid_rowconfigure(row, weight=1)
         # Allow the entry column to expand
@@ -180,6 +198,24 @@ class SettingsGUI:
             messagebox.showerror("Error", "Invalid Backspace Delay Max")
             return
 
+        if self.settings.validate_setting('Typing', 'break_frequency', self.break_frequency_entry.get()):
+            self.settings.set_setting('Typing', 'break_frequency', self.break_frequency_entry.get())
+        else:
+            messagebox.showerror("Error", "Invalid Break Frequency")
+            return
+
+        if self.settings.validate_setting('Typing', 'break_duration_min', self.break_duration_min_entry.get()):
+            self.settings.set_setting('Typing', 'break_duration_min', self.break_duration_min_entry.get())
+        else:
+            messagebox.showerror("Error", "Invalid Break Duration Min")
+            return
+
+        if self.settings.validate_setting('Typing', 'break_duration_max', self.break_duration_max_entry.get()):
+            self.settings.set_setting('Typing', 'break_duration_max', self.break_duration_max_entry.get())
+        else:
+            messagebox.showerror("Error", "Invalid Break Duration Max")
+            return
+
         # GUI settings
         if self.settings.validate_setting('GUI', 'start_delay', self.start_delay_entry.get()):
             self.settings.set_setting('GUI', 'start_delay', self.start_delay_entry.get())
@@ -232,6 +268,15 @@ class SettingsGUI:
                 elif setting_name == 9:
                     child.delete(0, tk.END)
                     child.insert(0, self.settings.get_setting('Typing', 'backspace_delay_max'))
+                elif setting_name == 10:
+                    child.delete(0, tk.END)
+                    child.insert(0, self.settings.get_setting('Typing', 'break_frequency'))
+                elif setting_name == 11:
+                    child.delete(0, tk.END)
+                    child.insert(0, self.settings.get_setting('Typing', 'break_duration_min'))
+                elif setting_name == 12:
+                    child.delete(0, tk.END)
+                    child.insert(0, self.settings.get_setting('Typing', 'break_duration_max'))
         for child in self.gui_frame.winfo_children():
             if isinstance(child, ttk.Entry):
                 child.delete(0, tk.END)
