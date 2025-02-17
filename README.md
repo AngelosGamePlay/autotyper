@@ -23,7 +23,7 @@ This is a Python application that simulates human typing on your computer, inclu
 
 ### Using the Installer (Recommended)
 
-1.  **Download the installer:** Download the latest installer (`AutotyperSetup.exe`) from the [Releases](<YOUR_GITHUB_RELEASES_URL>) page of this repository.  *(You'll replace `<YOUR_GITHUB_RELEASES_URL>` with the actual URL later.)*
+1.  **Download the installer:** Download the latest installer (`AutotyperSetup.exe`) from the [Releases](https://github.com/AngelosGamePlay/autotyper/releases) page of this repository.
 2.  **Run the installer:** Double-click `AutotyperSetup.exe` and follow the on-screen instructions.
 
 ### Building from Source (For Developers)
