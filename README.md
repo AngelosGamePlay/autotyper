@@ -67,18 +67,6 @@ The application uses a configuration file named `config.ini` to store your setti
 *   **Security:** Use this program responsibly and ethically.
 *   **Permissions:** You may need accessibility/input monitoring permissions.
 
-## Project Structure
-├── autotyper/
-│ ├── init.py # Package initializer
-│ ├── autotyper.py # Core autotyping logic
-│ ├── gui.py # GUI code
-│ └── constants.py # Constants and settings
-├── main.py # Entry point to run the application
-├── README.md # Project description (this file)
-├── requirements.txt # List of required packages
-├── .gitignore # Files and directories to ignore in Git
-└── LICENSE # Project license (MIT License)
-
 ## Contributing
 
 Feel free to submit pull requests with improvements or bug fixes.
