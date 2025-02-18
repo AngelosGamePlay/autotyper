@@ -143,10 +143,10 @@ class SettingsGUI:
     def create_gui_widgets(self):
         row = 0
          # Start Delay
-        ttk.Label(self.gui_frame, text="Start Delay (s):",
+        ttk.Label(self.gui_frame, text="Start/Resume Delay (s):",  # Changed label text
                   ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
         self.start_delay_entry = ttk.Entry(self.gui_frame, width=10)
-        self.start_delay_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=5)
+        self.start_delay_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=5)  # Use sticky=tk.EW
         self.start_delay_entry.insert(0, self.settings.get_setting('GUI', 'start_delay'))
         row+=1
 

@@ -1,2 +1,3 @@
 # autotyper/__init__.py
-# Empty, but needed to make the directory a package
+# This file is intentionally left blank.  It just signals to Python that
+# the 'autotyper' directory should be treated as a package.
