@@ -1,6 +1,7 @@
 # autotyper/gui.py
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
+# import tkinter.tix as tix  # For more advanced tooltips (optional)
 from .autotyper import Autotyper
 from .settings import Settings
 from .gui_settings import SettingsGUI
@@ -17,7 +18,11 @@ class AutotyperGUI:
         self.typing_thread = None
         self.create_widgets()
         master.protocol("WM_DELETE_WINDOW", self.on_closing)
-        self.check_for_updates()  # Check for updates on startup
+
+        # --- Tooltips (using a simple approach) ---
+        self.tooltips = {}  # Store tooltips
+        self.create_tooltips()
+        self.check_for_updates()
 
 
     def create_widgets(self):
@@ -53,6 +58,7 @@ class AutotyperGUI:
         self.settings_button = ttk.Button(self.button_frame, text="Settings", command=self.open_settings)
         self.settings_button.pack(side=tk.LEFT, padx=5)
 
+
         # Status Label
         self.status_label = ttk.Label(self.master, text="")
         self.status_label.pack(pady=5)
@@ -84,10 +90,15 @@ class AutotyperGUI:
 
         self.start_button.config(state=tk.DISABLED)
         self.cancel_button.config(state=tk.NORMAL)
+        self.settings_button.config(state=tk.DISABLED)  # Disable Settings button
+        self.text_area.config(state=tk.DISABLED)  # Disable text area
+        self.wpm_entry.config(state=tk.DISABLED) # Disable WPM
+
 
         self.autotyper.start_typing(text, self.settings.get_setting('GUI', 'start_delay'), wpm)
         self.status_label.config(text="Typing complete!")
         self.reset_buttons()
+
 
     def start_typing_thread(self):
         """Starts the autotyping in a separate thread."""
@@ -105,6 +116,9 @@ class AutotyperGUI:
         """Resets the buttons."""
         self.start_button.config(state=tk.NORMAL)
         self.cancel_button.config(state=tk.DISABLED)
+        self.settings_button.config(state=tk.NORMAL)  # Re-enable Settings button
+        self.text_area.config(state=tk.NORMAL)  # Re-enable text area
+        self.wpm_entry.config(state=tk.NORMAL) #Re enable WPM
 
     def on_closing(self):
         """Handles the window close event."""
@@ -116,13 +130,16 @@ class AutotyperGUI:
         settings_window = tk.Toplevel(self.master)
         SettingsGUI(settings_window, self.settings, self.update_typing_settings)
 
+
     def update_typing_settings(self):
-        try:
-            wpm = int(self.wpm_entry.get())
-            if wpm > 0:
-                self.autotyper.calculate_typing_speed(wpm)
-        except ValueError:
-            pass
+      """Reloads all settings and applys them to the autotyper."""
+      #Updates WPM if changed
+      try:
+        wpm = int(self.wpm_entry.get())
+        if wpm > 0:
+          self.autotyper.calculate_typing_speed(wpm) # Recalculate based on possibly changed settings
+      except ValueError as e:
+        pass #If error, ignore, we don't change typing speed
 
     def check_for_updates(self):
         """Checks for updates and prompts the user if available."""
@@ -143,3 +160,33 @@ class AutotyperGUI:
             else: # User clicked Cancel
               self.settings.set_setting('GUI', 'check_for_updates', 'False')  # Use string 'False'
               self.settings.save_settings()
+
+    def create_tooltips(self):
+        """Creates tooltips for GUI elements."""
+        self.tooltips[self.text_area] = "Enter the text you want the Autotyper to type."
+        self.tooltips[self.wpm_entry] = "Set the target typing speed in Words Per Minute (WPM)."
+        self.tooltips[self.start_button] = "Start the autotyping process."
+        self.tooltips[self.cancel_button] = "Cancel the autotyping process."
+        self.tooltips[self.settings_button] = "Open the settings window to customize Autotyper."
+        self.tooltips[self.status_label] = "Status messages will appear here."
+        # Add tooltips for settings in SettingsGUI as well
+
+        for widget, text in self.tooltips.items():
+            widget.bind("<Enter>", lambda event, w=widget, t=text: self.show_tooltip(event, w, t))
+            widget.bind("<Leave>", self.hide_tooltip)
+
+        self.tooltip_label = tk.Label(self.master, text="", background="#ffffe0", relief="solid", borderwidth=1) #Label
+        self.tooltip_label.pack_forget() #Start hidden
+
+    def show_tooltip(self, event, widget, text):
+        """Displays a tooltip."""
+        x = widget.winfo_rootx() + 20
+        y = widget.winfo_rooty() + widget.winfo_height() + 5
+        self.tooltip_label.config(text=text)
+        self.tooltip_label.place(x=x, y=y)
+
+
+    def hide_tooltip(self, event):
+        """Hides the tooltip."""
+        self.tooltip_label.pack_forget() # Hide
+        self.tooltip_label.place_forget()

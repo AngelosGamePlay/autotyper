@@ -43,79 +43,92 @@ class SettingsGUI:
         # Use grid with sticky options for better alignment
         row = 0  # Keep track of the row number
 
-        ttk.Label(self.typing_frame, text="Vowel Error Rate:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Vowel Error Rate:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.vowel_error_rate_entry = ttk.Entry(self.typing_frame, width=10)
         self.vowel_error_rate_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.vowel_error_rate_entry.insert(0, self.settings.get_setting('Typing', 'vowel_error_rate'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Consonant Error Rate:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Consonant Error Rate:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.consonant_error_rate_entry = ttk.Entry(self.typing_frame, width=10)
         self.consonant_error_rate_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.consonant_error_rate_entry.insert(0, self.settings.get_setting('Typing', 'consonant_error_rate'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Word Pause Min:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Word Pause Min:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.word_pause_min_entry = ttk.Entry(self.typing_frame, width=10)
         self.word_pause_min_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.word_pause_min_entry.insert(0, self.settings.get_setting('Typing', 'word_pause_min'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Word Pause Max:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Word Pause Max:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.word_pause_max_entry = ttk.Entry(self.typing_frame, width=10)
         self.word_pause_max_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.word_pause_max_entry.insert(0, self.settings.get_setting('Typing', 'word_pause_max'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Punctuation Pause Min:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Punctuation Pause Min:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.punctuation_pause_min_entry = ttk.Entry(self.typing_frame, width=10)
         self.punctuation_pause_min_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.punctuation_pause_min_entry.insert(0, self.settings.get_setting('Typing', 'punctuation_pause_min'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Punctuation Pause Max:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Punctuation Pause Max:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.punctuation_pause_max_entry = ttk.Entry(self.typing_frame, width=10)
         self.punctuation_pause_max_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.punctuation_pause_max_entry.insert(0, self.settings.get_setting('Typing', 'punctuation_pause_max'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Wrong Char Delay Min:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Wrong Char Delay Min:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.wrong_char_delay_min_entry = ttk.Entry(self.typing_frame, width=10)
         self.wrong_char_delay_min_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.wrong_char_delay_min_entry.insert(0, self.settings.get_setting('Typing', 'wrong_char_delay_min'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Wrong Char Delay Max:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Wrong Char Delay Max:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.wrong_char_delay_max_entry = ttk.Entry(self.typing_frame, width=10)
         self.wrong_char_delay_max_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.wrong_char_delay_max_entry.insert(0, self.settings.get_setting('Typing', 'wrong_char_delay_max'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Backspace Delay Min:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Backspace Delay Min:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.backspace_delay_min_entry = ttk.Entry(self.typing_frame, width=10)
         self.backspace_delay_min_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.backspace_delay_min_entry.insert(0, self.settings.get_setting('Typing', 'backspace_delay_min'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Backspace Delay Max:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Backspace Delay Max:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.backspace_delay_max_entry = ttk.Entry(self.typing_frame, width=10)
         self.backspace_delay_max_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.backspace_delay_max_entry.insert(0, self.settings.get_setting('Typing', 'backspace_delay_max'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Break Frequency (chars):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Break Frequency (chars):",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.break_frequency_entry = ttk.Entry(self.typing_frame, width=10)
         self.break_frequency_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.break_frequency_entry.insert(0, self.settings.get_setting('Typing', 'break_frequency'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Break Duration Min (s):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Break Duration Min (s):",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.break_duration_min_entry = ttk.Entry(self.typing_frame, width=10)
         self.break_duration_min_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.break_duration_min_entry.insert(0, self.settings.get_setting('Typing', 'break_duration_min'))
         row += 1
 
-        ttk.Label(self.typing_frame, text="Break Duration Max (s):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
+        ttk.Label(self.typing_frame, text="Break Duration Max (s):",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
         self.break_duration_max_entry = ttk.Entry(self.typing_frame, width=10)
         self.break_duration_max_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=2)
         self.break_duration_max_entry.insert(0, self.settings.get_setting('Typing', 'break_duration_max'))
@@ -128,12 +141,26 @@ class SettingsGUI:
 
 
     def create_gui_widgets(self):
+        row = 0
          # Start Delay
-        ttk.Label(self.gui_frame, text="Start Delay (s):").grid(row=0, column=0, sticky=tk.W, padx=5, pady=5)
+        ttk.Label(self.gui_frame, text="Start Delay (s):",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
         self.start_delay_entry = ttk.Entry(self.gui_frame, width=10)
-        self.start_delay_entry.grid(row=0, column=1, sticky=tk.EW, padx=5, pady=5)  # Use sticky=tk.EW
+        self.start_delay_entry.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=5)
         self.start_delay_entry.insert(0, self.settings.get_setting('GUI', 'start_delay'))
+        row+=1
+
+        # Check for Updates (Checkbox)
+        ttk.Label(self.gui_frame, text="Check for Updates on Startup:",
+                  ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+        self.check_for_updates_var = tk.BooleanVar()
+        self.check_for_updates_var.set(self.settings.get_setting('GUI', 'check_for_updates') == "True")  # Compare with string "True"
+        self.check_for_updates_checkbox = ttk.Checkbutton(self.gui_frame,
+                                                            variable=self.check_for_updates_var)
+        self.check_for_updates_checkbox.grid(row=row, column=1, sticky=tk.EW, padx=5, pady=5)
+        row+=1
         self.gui_frame.grid_columnconfigure(1, weight=1) # Allow column to expand
+
 
 
 
@@ -223,6 +250,9 @@ class SettingsGUI:
             messagebox.showerror("Error", "Invalid Start Delay")
             return
 
+        #Check for updates setting
+        self.settings.set_setting('GUI', 'check_for_updates', str(self.check_for_updates_var.get()))
+
 
         self.settings.save_settings()
         self.on_save_callback()
@@ -281,3 +311,5 @@ class SettingsGUI:
             if isinstance(child, ttk.Entry):
                 child.delete(0, tk.END)
                 child.insert(0, self.settings.get_setting('GUI', 'start_delay'))
+            elif isinstance(child, ttk.Checkbutton): #Handle checkbutton
+                self.check_for_updates_var.set(self.settings.get_setting('GUI', 'check_for_updates')== "True")

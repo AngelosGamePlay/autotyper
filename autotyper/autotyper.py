@@ -56,8 +56,8 @@ class Autotyper:
                 return random.choice(neighbors)
             else:
                 return char  # Return original if no neighbors (e.g., special chars)
-        except AttributeError: #If keyboard_layout not yet initialized (e.g. settings menu)
-            return 'x'
+        except Exception: # Catching *any* exception is generally bad practice, but acceptable here
+            return 'x' #If any error, just return x
 
     def calculate_typing_speed(self, wpm):
         chars_per_minute = wpm * 6
@@ -65,7 +65,7 @@ class Autotyper:
 
     def type_like_human(self, text):
         if self.typing_speed is None:
-            raise ValueError("Typing speed not set. Call calculate_typing_speed first.")
+            raise ValueError("Typing speed not set.  Call calculate_typing_speed first.")
 
         for i, char in enumerate(text):
             if self.cancelled:

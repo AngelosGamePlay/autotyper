@@ -1,6 +1,6 @@
 [Setup]
 AppName=Autotyper
-AppVersion=1.2.0
+AppVersion=1.2.1
 AppId={3296af3a-27ab-424e-b4b6-921028d4bd45}
 DefaultDirName={pf}\Autotyper
 DefaultGroupName=Autotyper
