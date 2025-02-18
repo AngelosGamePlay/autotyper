@@ -13,6 +13,7 @@ This is a Python application that simulates human typing on your computer, inclu
 *   **Installer:** A Windows installer is provided for easy installation.
 *   **Organized Project Structure:** Code is split into modules.
 * **Nearby Key Errors**: Simulates making mistakes by pressing on a nearby key.
+*   **Tooltips:** Hover over GUI elements for helpful hints.
 
 ## Requirements
 
