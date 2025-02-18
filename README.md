@@ -38,7 +38,7 @@ This is a Python application that simulates human typing on your computer, inclu
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/AngelosGamePlay/autotyper.git
+    git clone https://github.com/PilotScript/autotyper.git
     cd autotyper-project
     ```
 
