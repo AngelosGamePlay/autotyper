@@ -35,7 +35,8 @@ class Settings:
                 'break_duration_max': 5.0,
             },
             'GUI': {
-                'start_delay': 5
+                'start_delay': 5,
+                'check_for_updates': "True"
             }
         }
 
@@ -72,6 +73,8 @@ class Settings:
                 return self.config.getfloat(section, option)
             elif option == 'start_delay':
                 return self.config.getint(section, option)
+            elif option == 'check_for_updates':
+                return self.config.get(section, option)
             else:
                 return self.config.get(section, option)  # Fallback
         except (configparser.NoSectionError, configparser.NoOptionError, ValueError):
@@ -105,6 +108,8 @@ class Settings:
             elif option == 'start_delay':
                 int(value)
                 return int(value) >= 0
+            elif option == 'check_for_updates':
+                return value in ("True", "False")
             else:
                 return True # No validation for other types (shouldn't be any)
         except ValueError:

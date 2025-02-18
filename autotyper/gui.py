@@ -1,25 +1,23 @@
 # autotyper/gui.py
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
-from .autotyper import Autotyper  # Import the Autotyper class
+from .autotyper import Autotyper
 from .settings import Settings
-from .gui_settings import SettingsGUI #Import Settings GUI
+from .gui_settings import SettingsGUI
 from threading import Thread
 
 class AutotyperGUI:
     def __init__(self, master):
         self.master = master
         master.title("Realistic Autotyper")
-        master.geometry("600x450")  # Adjust size for WPM input
+        master.geometry("600x450")
 
-        self.settings = Settings() # Create settings instance
-        self.autotyper = Autotyper(self.settings)  # Create an instance of the Autotyper, pass settings
-        self.typing_thread = None   # Store the typing thread
-
+        self.settings = Settings()
+        self.autotyper = Autotyper(self.settings)
+        self.typing_thread = None
         self.create_widgets()
-
-        # Bind the window close event to the on_closing method
         master.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.check_for_updates()  # Check for updates on startup
 
 
     def create_widgets(self):
@@ -55,7 +53,6 @@ class AutotyperGUI:
         self.settings_button = ttk.Button(self.button_frame, text="Settings", command=self.open_settings)
         self.settings_button.pack(side=tk.LEFT, padx=5)
 
-
         # Status Label
         self.status_label = ttk.Label(self.master, text="")
         self.status_label.pack(pady=5)
@@ -69,7 +66,7 @@ class AutotyperGUI:
 
     def start_typing(self):
         """Starts the autotyping process."""
-        text = self.text_area.get("1.0", tk.END).strip()  # Get text
+        text = self.text_area.get("1.0", tk.END).strip()
         if not text:
             messagebox.showwarning("Warning", "Please enter some text to type.")
             return
@@ -92,7 +89,6 @@ class AutotyperGUI:
         self.status_label.config(text="Typing complete!")
         self.reset_buttons()
 
-
     def start_typing_thread(self):
         """Starts the autotyping in a separate thread."""
         self.typing_thread = Thread(target=self.start_typing)
@@ -112,20 +108,38 @@ class AutotyperGUI:
 
     def on_closing(self):
         """Handles the window close event."""
-        self.autotyper.cancel_typing()  # Cancel any ongoing typing
-        self.master.destroy()  # Destroy the window
+        self.autotyper.cancel_typing()
+        self.master.destroy()
 
     def open_settings(self):
         """Opens the settings window."""
-        settings_window = tk.Toplevel(self.master)  # Create a Toplevel window
-        SettingsGUI(settings_window, self.settings, self.update_typing_settings) # Pass settings and callback
+        settings_window = tk.Toplevel(self.master)
+        SettingsGUI(settings_window, self.settings, self.update_typing_settings)
 
     def update_typing_settings(self):
-      """Reloads all settings and applys them to the autotyper."""
-      # Removed: self.settings.load_settings()  <- This was the problem!
-      try:
-        wpm = int(self.wpm_entry.get())
-        if wpm > 0:
-          self.autotyper.calculate_typing_speed(wpm) # Recalculate based on possibly changed settings
-      except ValueError as e:
-        pass #If error, ignore, we don't change typing speed
+        try:
+            wpm = int(self.wpm_entry.get())
+            if wpm > 0:
+                self.autotyper.calculate_typing_speed(wpm)
+        except ValueError:
+            pass
+
+    def check_for_updates(self):
+        """Checks for updates and prompts the user if available."""
+        if self.settings.get_setting('GUI', 'check_for_updates') == 'False':  # String comparison
+            return
+
+        if self.autotyper.is_update_available():
+            result = messagebox.askyesnocancel("Update Available",
+                                            "A new version of Autotyper is available. Do you want to update now?\n\nClick 'Yes' to update automatically.\nClick 'No' to update later.\nClick 'Cancel' to disable update checks.",
+                                            )
+            if result is True:  # User clicked 'Yes'
+                installer_path = self.autotyper.download_latest_installer()
+                self.autotyper.run_installer(installer_path)
+
+
+            elif result is False: # User clicked 'No'
+                return # Do nothing
+            else: # User clicked Cancel
+              self.settings.set_setting('GUI', 'check_for_updates', 'False')  # Use string 'False'
+              self.settings.save_settings()

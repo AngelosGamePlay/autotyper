@@ -1,8 +1,14 @@
 # autotyper/autotyper.py
 import time
 import random
+import requests  # Import the requests library
+import json
+import os
+import subprocess
+import sys
 from pynput.keyboard import Key, Controller
 from .settings import Settings
+from .constants import VERSION # Import Version
 
 class Autotyper:
     def __init__(self, settings=None):
@@ -14,6 +20,8 @@ class Autotyper:
         self.settings = settings or Settings()
         self.keyboard_layout = self._create_keyboard_layout()
         self.chars_typed_since_break = 0  # Track characters typed
+        self.repo_owner = "AngelosGamePlay"  # Your GitHub username
+        self.repo_name = "autotyper"  # Your repository name
 
     def _create_keyboard_layout(self):
         """Creates a dictionary representing the QWERTY keyboard layout."""
@@ -132,3 +140,80 @@ class Autotyper:
 
     def update_settings(self):
         pass
+
+    def get_latest_release_version(self):
+        """Fetches the latest release version from GitHub using the API."""
+        url = f"https://api.github.com/repos/{self.repo_owner}/{self.repo_name}/releases/latest"
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an exception for bad status codes
+            data = response.json()
+            return data['tag_name']
+        except (requests.RequestException, KeyError, json.JSONDecodeError):
+            return None  # Return None if any error occurs
+
+    def is_update_available(self):
+        """Checks if a newer version is available on GitHub."""
+        latest_version = self.get_latest_release_version()
+        if latest_version:
+            #Compares version
+            return latest_version > "v" + VERSION #Adds v to match tag format
+        return False
+
+    def download_latest_installer(self):
+      """Downloads the latest installer .exe from GitHub releases."""
+      latest_version = self.get_latest_release_version()
+      if not latest_version:
+          print("Error: Couldn't retrieve latest release version.")
+          return None
+
+      url = f"https://api.github.com/repos/{self.repo_owner}/{self.repo_name}/releases/latest"
+      try:
+          response = requests.get(url)
+          response.raise_for_status()
+          data = response.json()
+
+          for asset in data['assets']:
+              if asset['name'].endswith('.exe'):  # Assuming your installer is a .exe
+                download_url = asset['browser_download_url']
+                break # Find first exe
+          else:
+            print("No installer found in latest release.")
+            return None
+
+          # Download the installer
+          print(f"Downloading installer from: {download_url}")
+          installer_filename = f"AutotyperSetup-{latest_version}.exe" #Naming
+          response = requests.get(download_url, stream=True) #Download
+          response.raise_for_status()
+
+          with open(installer_filename, 'wb') as f: # Write to file
+              for chunk in response.iter_content(chunk_size=8192):
+                  f.write(chunk)
+          print("Installer downloaded successfully.")
+          return installer_filename
+
+      except requests.RequestException as e:
+        print("Request error")
+        return None
+      except KeyError as e:
+        print("Key error")
+        return None
+      except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return None
+
+    def run_installer(self, installer_path):
+      """Runs the downloaded installer."""
+      if installer_path:
+        try:
+          subprocess.run([installer_path], check=True) # Run and check if it fails
+          sys.exit(0)  # Exit the current process after launching the installer
+        except subprocess.CalledProcessError as e:
+            print("Called Process Error")
+        except FileNotFoundError as e:
+            print("File not found error")
+        except Exception as e:
+            print("Exception")
+      else:
+        print("Installer path is not valid.")
