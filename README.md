@@ -6,25 +6,28 @@ This is a Python application that simulates human typing on your computer, inclu
 
 *   **Realistic Typing Simulation:** Varies typing speed, introduces occasional errors (with corrections), and pauses realistically after words and punctuation. Typing speed is dynamically adjusted based on a target Words Per Minute (WPM).
 *   **GUI:** A simple graphical user interface allows you to easily enter text, set the target WPM, and start the autotyping process.
-*   **Configurable:** Settings like error rates and pause durations are customizable via a settings menu. Settings are saved to a `config.ini` file.
+*   **Configurable:** Settings like error rates, pause durations, break frequency, break duration, and the start delay are customizable via a settings menu.  Settings are saved to a `config.ini` file.
 *   **Multi-threading:** The typing action occurs on a separate thread, preventing the GUI from freezing.
 *   **Cancel:** You can cancel the typing process.
+*   **Automatic Updates:** The application checks for updates on startup and prompts you to download and run the new installer if a newer version is available. You can disable update checks in the settings.
 *   **Installer:** A Windows installer is provided for easy installation.
-*    **Organized Project Structure:** Code is split into modules.
+*   **Organized Project Structure:** Code is split into modules.
+* **Nearby Key Errors**: Simulates making mistakes by pressing on a nearby key.
 
 ## Requirements
 
-* **For Running the Installer:** Windows operating system.
-* **For Building from Source:**
+*   **For Running the Installer:** Windows operating system.
+*   **For Building from Source:**
     *   Python 3.6 or higher
     *   `pynput` library
+    *   `requests` library
 
 ## Installation
 
 ### Using the Installer (Recommended)
 
 1.  **Download the installer:** Download the latest installer (`AutotyperSetup.exe`) from the [Releases](https://github.com/AngelosGamePlay/autotyper/releases) page of this repository.
-2.  **Run the installer:** Double-click `AutotyperSetup.exe` and follow the on-screen instructions.
+2.  **Run the installer:** Double-click `AutotyperSetup.exe` and follow the on-screen instructions. The installer will prompt you to uninstall any previous versions of Autotyper.
 
 ### Building from Source (For Developers)
 
@@ -54,7 +57,7 @@ This is a Python application that simulates human typing on your computer, inclu
 1.  After installation, run "Autotyper" from your Start Menu.
 2.  **Enter the text** you want to type into the text area.
 3.  **Enter the desired WPM.** The default is 50 WPM.
-4.  **Click "Settings"** to adjust error rates, etc. Click "Save" in the settings window.
+4.  **Click "Settings"** to adjust error rates, pause durations, break settings, and other settings. Click "Save" in the settings window.
 5.  **Click "Start Typing".** There will be a delay (configurable in Settings).
 6.  **Click "Cancel"** to stop.
 
