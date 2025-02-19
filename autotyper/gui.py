@@ -6,13 +6,17 @@ from .autotyper import Autotyper
 from .settings import Settings
 from .gui_settings import SettingsGUI
 from threading import Thread
-import time  # Add this line!
+import time
+import subprocess  # For running the uninstaller
+import ctypes  # For elevation
+import sys
+import winreg  # For accessing the Windows Registry
 
 class AutotyperGUI:
     def __init__(self, master):
         self.master = master
         master.title("Realistic Autotyper")
-        master.geometry("600x600")  # Adjusted for time remaining
+        master.geometry("600x550")  # Adjusted for time remaining
 
         self.settings = Settings()
         self.autotyper = Autotyper(self.settings)
@@ -155,7 +159,7 @@ class AutotyperGUI:
     def _start_typing_thread(self):
         """Internal method to actually start the typing thread (called after the delay)."""
         self.typing_thread = Thread(target=self.start_typing)
-        self.typing_thread.daemon = True  # Set the thread as a daemon thread
+        self.typing_thread.daemon = True
         self.typing_thread.start()
         self.update_time_remaining() # NOW we start the timer
 
@@ -252,9 +256,7 @@ class AutotyperGUI:
                                             "A new version of Autotyper is available. Do you want to update now?\n\nClick 'Yes' to update automatically.\nClick 'No' to update later.\nClick 'Cancel' to disable update checks.",
                                             )
             if result is True:
-                installer_path = self.autotyper.download_latest_installer()
-                self.autotyper.run_installer(installer_path)
-
+                self.update_application() # Call update function
 
             elif result is False:
                 return
@@ -366,3 +368,44 @@ class AutotyperGUI:
             seconds = int(remaining % 60)
             self.time_remaining_label.config(text=f"Estimated Time Remaining: {minutes:02d}:{seconds:02d}")
         self.update_timer_id = self.master.after(1000, self.update_time_remaining)  # Update every 1 second (1000ms)
+
+    def update_application(self):
+        """Downloads and runs the latest installer, handling uninstallation."""
+        installer_path = self.autotyper.download_latest_installer()
+        if not installer_path:
+            return  # Error handled within download_latest_installer
+
+        # Find and run the uninstaller for the *current* version.
+        try:
+            # Use winreg to access the Windows Registry
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Autotyper_is1", 0, winreg.KEY_READ) as key:
+                uninstall_string, _ = winreg.QueryValueEx(key, "UninstallString")
+
+            # Extract the uninstaller path and construct the msiexec command.
+            # The uninstall string is usually: "C:\...\unins000.exe" /SILENT
+            uninstall_path = uninstall_string.split('"')[1]
+            # msiexec command
+            msiexec_command = ["msiexec.exe", "/x", uninstall_path, "/qn"] # /qn for quiet uninstall
+            print (f"msiexec command: {msiexec_command}")
+            # Run the uninstaller.
+            subprocess.run(msiexec_command, check=True)
+
+
+        except FileNotFoundError:
+            messagebox.showerror("Error", "Could not find previous version's uninstaller.")
+            return
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred during uninstallation:\n{e}")
+            return
+
+        # Run the new installer (with elevation)
+        try:
+            if sys.platform == 'win32':
+                # Use ShellExecuteW with 'runas' verb for elevation
+                ctypes.windll.shell32.ShellExecuteW(None, "runas", installer_path, None, None, 1)
+                sys.exit(0) # Exit after launching
+            else:
+                messagebox.showerror("Error", "Update not supported on this platform.")
+
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not run installer:\n{e}")
